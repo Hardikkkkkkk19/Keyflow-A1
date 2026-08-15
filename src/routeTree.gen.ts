@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
-import { APIRoute as ApiCoachRouteImport } from './routes/api/coach'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +22,31 @@ const SplatRoute = SplatRouteImport.update({
   path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiCoachRoute = ApiCoachRouteImport.update({
-  id: '/api/coach',
-  path: '/api/coach',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/api/coach': typeof ApiCoachRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/api/coach': typeof ApiCoachRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/api/coach': typeof ApiCoachRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$' | '/api/coach'
+  fullPaths: '/' | '/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/api/coach'
-  id: '__root__' | '/' | '/$' | '/api/coach'
+  to: '/' | '/$'
+  id: '__root__' | '/' | '/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
-  ApiCoachRoute: typeof ApiCoachRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,20 +65,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/coach': {
-      id: '/api/coach'
-      path: '/api/coach'
-      fullPath: '/api/coach'
-      preLoaderRoute: typeof ApiCoachRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
-  ApiCoachRoute: ApiCoachRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
